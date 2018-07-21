@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace on_screen_timer
 {
@@ -44,42 +38,41 @@ namespace on_screen_timer
         #region Variables
 
         ViewModel ThisViewModel;
+        DispatcherTimer Timer;
+        TimeSpan Time;
+
+        int PastSecond = 0;
 
         #endregion
 
 
 
-
+        #region Control Button Click
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            ThisViewModel.IsTimerRunning = false;
-            ThisViewModel.IsTimerPaused = false;
-            ThisViewModel.CurrentLeftMinutes = 0;
-            ThisViewModel.CurrentLeftSeconds = 0;
+            Cancel();
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            ThisViewModel.IsTimerRunning = true;
-            ThisViewModel.IsTimerPaused = false;
-            ThisViewModel.CurrentLeftMinutes = ThisViewModel.MinuteSet;
-            ThisViewModel.CurrentLeftSeconds = ThisViewModel.SecondSet;
-            // run timer
+            Start();
         }
 
         private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
-            ThisViewModel.IsTimerRunning = true;
-            ThisViewModel.IsTimerPaused = true;
+            Pause();
         }
 
         private void ResumeButton_Click(object sender, RoutedEventArgs e)
         {
-            ThisViewModel.IsTimerRunning = true;
-            ThisViewModel.IsTimerPaused = false;
+            Resume();
         }
 
+        #endregion
+
+
+        #region Time Set Button Click
 
         private void MinutePlusButton_Click(object sender, RoutedEventArgs e)
         {
@@ -112,6 +105,78 @@ namespace on_screen_timer
             {
                 ThisViewModel.ControlVisible = false;
             }
+        }
+
+        #endregion
+
+
+
+        private void Start()
+        {
+            ThisViewModel.IsTimerRunning = true;
+            ThisViewModel.IsTimerPaused = false;
+            ThisViewModel.CurrentLeftMinutes = ThisViewModel.MinuteSet;
+            ThisViewModel.CurrentLeftSeconds = ThisViewModel.SecondSet;
+            // run timer
+            StartTimer();
+        }
+
+        private void Pause()
+        {
+            ThisViewModel.IsTimerRunning = true;
+            ThisViewModel.IsTimerPaused = true;
+            Timer.Stop();
+        }
+
+        private void Resume()
+        {
+            ThisViewModel.IsTimerRunning = true;
+            ThisViewModel.IsTimerPaused = false;
+            Timer.Start();
+        }
+
+        private void Cancel()
+        {
+            ThisViewModel.IsTimerRunning = false;
+            ThisViewModel.IsTimerPaused = false;
+            ThisViewModel.CurrentLeftMinutes = 0;
+            ThisViewModel.CurrentLeftSeconds = 0;
+            Timer.Stop();
+        }
+
+        private void StartTimer()
+        {
+            Time = new TimeSpan(0, ThisViewModel.MinuteSet, ThisViewModel.SecondSet + 1);
+            Timer = new DispatcherTimer();
+
+            Timer.Interval = TimeSpan.FromMilliseconds(0);
+            Timer.Tick += Timer_Tick;
+
+            Timer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (Time == TimeSpan.Zero || Time.TotalSeconds <= 0) TimerDone();
+
+            if (PastSecond != DateTime.Now.Second)
+            {
+                Time = Time.Add(TimeSpan.FromSeconds(-1));
+
+                ThisViewModel.CurrentLeftMinutes = Time.Minutes;
+                ThisViewModel.CurrentLeftSeconds = Time.Seconds;
+
+                PastSecond = DateTime.Now.Second;
+            }
+        }
+
+        private void TimerDone()
+        {
+            MessageBox.Show("타이머 완료");
+            Timer.Stop();
+            ThisViewModel.IsTimerRunning = false;
+            ThisViewModel.IsTimerPaused = false;
+            ThisViewModel.ControlVisible = true;
         }
     }
 }

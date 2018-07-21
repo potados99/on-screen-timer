@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Media;
 
 namespace on_screen_timer
 {
@@ -49,6 +52,16 @@ namespace on_screen_timer
 
             set
             {
+                if (value > 59)
+                {
+                    MessageBox.Show("60 미만의 정수를 입력해 주세요");
+                    return;
+                }
+                if (value < 0)
+                {
+                    MessageBox.Show("0 이상의 정수를 입력해 주세요");
+                    return;
+                }
                 minuteSet = value;
                 NotifyPropertyChanged("MinuteSet");
             }
@@ -64,6 +77,37 @@ namespace on_screen_timer
 
             set
             {
+                if (value > 59)
+                {
+                    if (value == 60 && MinuteSet < 59)
+                    {
+                        MinuteSet += 1;
+                        secondSet = 0;
+                        NotifyPropertyChanged("SecondSet");
+                    }
+                    else
+                    {
+                        MessageBox.Show("60 미만의 정수를 입력해 주세요");
+                    }
+                    return;
+
+                }
+                if (value < 0)
+                {
+                    if (value == -1 && MinuteSet > 0)
+                    {
+                        MinuteSet -= 1;
+                        secondSet = 59;
+                        NotifyPropertyChanged("SecondSet");
+                    }
+                    else
+                    {
+                        MessageBox.Show("0 이상의 정수를 입력해 주세요");
+                    }
+                    return;
+
+                }
+
                 secondSet = value;
                 NotifyPropertyChanged("SecondSet");
             }
@@ -99,7 +143,7 @@ namespace on_screen_timer
             }
         }
 
-        private bool controlVisible = false;
+        private bool controlVisible = true;
         public bool ControlVisible
         {
             get
@@ -111,8 +155,47 @@ namespace on_screen_timer
             {
                 controlVisible = value;
                 NotifyPropertyChanged("ControlVisible");
+                NotifyPropertyChanged("WindowHeight");
+
             }
         }
+
+        private SolidColorBrush timerLabelColor = new SolidColorBrush(Colors.Black);
+        public SolidColorBrush TimerLabelColor
+        {
+            get
+            {
+                return timerLabelColor;
+            }
+
+            set
+            {
+                timerLabelColor = value;
+                NotifyPropertyChanged("TimerLabelColor");
+            }
+        }
+
+        private int windowHeight = 161;
+        public int WindowHeight
+        {
+            get
+            {
+                if (ControlVisible)
+                {
+                    return windowHeight;
+                }
+                else
+                {
+                    return windowHeight / 7 * 4;
+                }
+            }
+
+            set
+            {
+
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

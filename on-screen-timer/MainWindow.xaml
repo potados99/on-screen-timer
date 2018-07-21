@@ -6,14 +6,13 @@
         xmlns:local="clr-namespace:on_screen_timer"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="150" Width="220"
+        Title="MainWindow" Height="{Binding Path=WindowHeight, FallbackValue=161, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="220"
         WindowStyle="None"
         ResizeMode="NoResize"
         Topmost="True"
         MouseDown="Window_MouseDown"
         MouseEnter="Window_MouseEnter"
-        MouseLeave="Window_MouseLeave"
-       >
+        MouseLeave="Window_MouseLeave">
 
     <Window.Resources>
         <Style x:Key="TimerLabel" TargetType="Label">
@@ -22,7 +21,8 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="Width" Value="90"/>
             <Setter Property="FontSize" Value="60"/>
-            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontFamily" Value="din"/>
+            <Setter Property="Foreground" Value="{Binding Path=TimerLabelColor}"/>
         </Style>
 
         <Style x:Key="TimerTextBox" TargetType="TextBox">
@@ -31,14 +31,16 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="Width" Value="50"/>
             <Setter Property="Height" Value="50"/>
-            <Setter Property="FontSize" Value="35"/>
+            <Setter Property="FontSize" Value="42"/>
+            <Setter Property="FontFamily" Value="din"/>
         </Style>
         
         <local:BoolToVisibilityConverter x:Key="boolConverter"/>
         <local:InverseBoolToVisibilityConverter x:Key="inverseBoolConverter"/>
         <local:BoolToGridRowHeightConverter x:Key="gridConverter"/>
+        <local:IntToFormatedStringConverter x:Key="intConverter"/>
 
-        <sys:Double x:Key="ControlButtonSize">50</sys:Double>
+        <sys:Double x:Key="ControlButtonSize">55</sys:Double>
 
         <SolidColorBrush x:Key="GrayButtonFill">#FFB9B7B1</SolidColorBrush>
         <SolidColorBrush x:Key="GrayButtonStroke">#FFCDCDCD</SolidColorBrush>
@@ -57,7 +59,7 @@
         </Grid.RowDefinitions>
 
         <!--Timer Label Grid-->
-        <Grid Grid.Row="0" Visibility="{Binding Path=IsTimerRunning, Converter={StaticResource boolConverter}}">
+        <Grid Grid.Row="0" Visibility="{Binding Path=IsTimerRunning, Converter={StaticResource boolConverter}}" Margin="0,5,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="15"/>
@@ -65,9 +67,9 @@
             </Grid.ColumnDefinitions>
             
             <!--Timer Label-->
-            <Label Grid.Column="0" Margin="0,0,0,0" Style="{StaticResource TimerLabel}" Content="{Binding Path=CurrentLeftMinutes, Mode=TwoWay, FallbackValue=00}" HorizontalAlignment="Right"/>
-            <Label Grid.Column="1" Style="{StaticResource TimerLabel}" Content=":"/>
-            <Label Grid.Column="2" Margin="0,0,0,0" Style="{StaticResource TimerLabel}" Content="{Binding Path=CurrentLeftSeconds, Mode=TwoWay, FallbackValue=00}" HorizontalAlignment="Left"/>
+            <Label Grid.Column="0" Margin="0,0,0,0" Style="{StaticResource TimerLabel}" Content="{Binding Path=CurrentLeftMinutes, Converter={StaticResource intConverter}, Mode=TwoWay, FallbackValue=00}" HorizontalAlignment="Right"/>
+            <Label Grid.Column="1" Style="{StaticResource TimerLabel}" Content=":" Margin="0,-10,0,0"/>
+            <Label Grid.Column="2" Margin="0,0,0,0" Style="{StaticResource TimerLabel}" Content="{Binding Path=CurrentLeftSeconds, Converter={StaticResource intConverter}, Mode=TwoWay, FallbackValue=00}" HorizontalAlignment="Left"/>
 
         </Grid>
        
@@ -80,7 +82,7 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBox x:Name="TimerMinuteTextBox" Style="{StaticResource TimerTextBox}" Text="{Binding Path=MinuteSet}"/>
+                <TextBox x:Name="TimerMinuteTextBox" Style="{StaticResource TimerTextBox}" Text="{Binding Path=MinuteSet, UpdateSourceTrigger=PropertyChanged}"/>
                 <StackPanel Orientation="Vertical" Height="{Binding Path=ActualHeight, ElementName=TimerMinuteTextBox}">
                     <Button x:Name="MinutePlusButton" Width="25" Height="25" Content="▲" Click="MinutePlusButton_Click"/>
                     <Button x:Name="MinuteMinusButton" Width="25" Height="25" Content="▼" Click="MinuteMinusButton_Click"/>
@@ -89,7 +91,7 @@
             </StackPanel>
 
             <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Left">
-                <TextBox x:Name="TimerSecondTextBox" Style="{StaticResource TimerTextBox}" Text="{Binding Path=SecondSet}" />
+                <TextBox x:Name="TimerSecondTextBox" Style="{StaticResource TimerTextBox}" Text="{Binding Path=SecondSet, UpdateSourceTrigger=PropertyChanged}"/>
                 <StackPanel Orientation="Vertical" Height="{Binding Path=ActualHeight, ElementName=TimerSecondTextBox}">
                     <Button x:Name="SecondPlusButton" Width="25" Height="25" Content="▲" Click="SecondPlusButton_Click"/>
                     <Button x:Name="SecondMinusButton" Width="25" Height="25" Content="▼" Click="SecondMinusButton_Click"/>
@@ -105,8 +107,8 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
-            <Separator Grid.Row="0"/>
+
+            <Separator Grid.Row="0" Background="#FFC9C9C9" Margin="0"/>
 
             <!--Buttons-->
             <Grid Grid.Row="1" HorizontalAlignment="Center" Width="200" VerticalAlignment="Center">
@@ -170,7 +172,5 @@
 
             </Grid>
         </Grid>
-
-
     </Grid>
 </Window>
