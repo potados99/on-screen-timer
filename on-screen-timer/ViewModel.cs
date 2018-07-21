@@ -62,12 +62,17 @@ namespace on_screen_timer
                     MessageBox.Show("0 이상의 정수를 입력해 주세요");
                     return;
                 }
+
+                if (value == 0 && SecondSet == 0)
+                {
+                    SecondSet = 1;
+                }
                 minuteSet = value;
                 NotifyPropertyChanged("MinuteSet");
             }
         }
 
-        private int secondSet = 0;
+        private int secondSet = 1;
         public int SecondSet
         {
             get
@@ -107,7 +112,10 @@ namespace on_screen_timer
                     return;
 
                 }
-
+                if (value == 0 && MinuteSet == 0)
+                {
+                    return;
+                } 
                 secondSet = value;
                 NotifyPropertyChanged("SecondSet");
             }
