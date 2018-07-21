@@ -198,6 +198,7 @@ namespace on_screen_timer
         {
             MessageBox.Show(
                 "만든이 병준이\n" +
+                "조력자 밓디\n" +
                 "2018년 7월 22일 완성\n"
                  );
         }
