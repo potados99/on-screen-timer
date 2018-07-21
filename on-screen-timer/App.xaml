@@ -4,6 +4,28 @@
              xmlns:local="clr-namespace:on_screen_timer"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">
+            <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter x:Name="PART_Content"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          TextElement.Foreground="{TemplateBinding Foreground}"></ContentPresenter>
+            </Border>
+        </ControlTemplate>
+        <Style x:Key="HoverOpacityEffect" TargetType="{x:Type Button}">
+
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Template" Value="{StaticResource ButtonTemplate}" />
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.8">
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
     </Application.Resources>
 </Application>
