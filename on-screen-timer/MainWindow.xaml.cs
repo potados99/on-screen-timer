@@ -178,5 +178,28 @@ namespace on_screen_timer
             ThisViewModel.IsTimerPaused = false;
             ThisViewModel.ControlVisible = true;
         }
+
+
+        private void ExitItem_Click(object sender, RoutedEventArgs e)
+        {
+            App.Current.Shutdown();
+        }
+
+        private void InfoItem_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(
+                "Onscreen Timer\n" +
+                "버전 1.0.0(20180722)\n\n" +
+                "Copyright © 2018 Potados 모든 권리 보유."
+                );
+        }
+
+        private void DevItem_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(
+                "만든이 병준이\n" +
+                "2018년 7월 22일 완성\n"
+                 );
+        }
     }
 }

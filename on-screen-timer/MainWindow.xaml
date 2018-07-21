@@ -52,7 +52,17 @@
         <SolidColorBrush x:Key="YelloButtonStroke">#FFF0B978</SolidColorBrush>
     </Window.Resources>
 
-    <Border BorderThickness="4" CornerRadius="2,2,2,2" BorderBrush="#FFC9C9C9">
+    <Window.ContextMenu>
+        <ContextMenu>
+            <MenuItem x:Name="ExitItem" Header="종료" Click="ExitItem_Click"/>
+            <Separator />
+            <MenuItem x:Name="InfoItem" Header="프로그램 정보" Click="InfoItem_Click"/>
+            <MenuItem x:Name="DevItem" Header="이거 만든놈 누구냐" Click="DevItem_Click"/>
+
+        </ContextMenu>
+    </Window.ContextMenu>
+    
+    <Border BorderThickness="3" BorderBrush="#FFC9C9C9">
         <Grid Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*" />
