@@ -164,7 +164,6 @@ namespace on_screen_timer
                 controlVisible = value;
                 NotifyPropertyChanged("ControlVisible");
                 NotifyPropertyChanged("WindowHeight");
-
             }
         }
 
@@ -183,7 +182,7 @@ namespace on_screen_timer
             }
         }
 
-        private int windowHeight = 161;
+        private readonly int windowHeight = 161;
         public int WindowHeight
         {
             get
@@ -194,7 +193,11 @@ namespace on_screen_timer
                 }
                 else
                 {
-                    return windowHeight / 7 * 4;
+                    int borderThickness = 3;
+                    double contentGridRowLengthStar = 4;
+                    double collapableGridRowLengthStar = BoolToGridRowHeightConverter.CollapsableGridRowLengthStar;
+                    double collapableGridRowLength = (double)windowHeight / (contentGridRowLengthStar + collapableGridRowLengthStar) * contentGridRowLengthStar;
+                    return (int)collapableGridRowLength + borderThickness;
                 }
             }
 

@@ -66,8 +66,8 @@
     <Border BorderThickness="3" BorderBrush="#FFC9C9C9">
         <Grid Background="White">
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="{Binding Path=ControlVisible, Converter={StaticResource gridConverter}, FallbackValue=1.5*}" />
+                <RowDefinition Height="4*" />
+                <RowDefinition Height="{Binding Path=ControlVisible, Converter={StaticResource gridConverter}, FallbackValue=3*}" />
             </Grid.RowDefinitions>
 
             <!--Timer Label Grid-->
