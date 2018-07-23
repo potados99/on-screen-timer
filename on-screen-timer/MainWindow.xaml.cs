@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace on_screen_timer
@@ -187,9 +184,11 @@ namespace on_screen_timer
 
         private void InfoItem_Click(object sender, RoutedEventArgs e)
         {
+            var ver = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
             MessageBox.Show(
                 "Onscreen Timer\n" +
-                "버전 1.0.0(20180722)\n\n" +
+                "버전 " + ver.ToString() + "\n\n" +
                 "Copyright © 2018 Potados 모든 권리 보유."
                 );
         }
@@ -198,8 +197,7 @@ namespace on_screen_timer
         {
             MessageBox.Show(
                 "만든이 병준이\n" +
-                "조력자 밓디\n" +
-                "2018년 7월 22일 완성\n"
+                "조력자 밓디\n"
                  );
         }
     }
