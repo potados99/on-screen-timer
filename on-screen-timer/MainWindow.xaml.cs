@@ -174,7 +174,9 @@ namespace on_screen_timer
 
         private void TimerDone()
         {
-            MessageBox.Show("타이머 완료");
+            System.Media.SystemSounds.Hand.Play();
+            new AlertWindow(1.2, "타이머 완료!").Show();
+
             Timer.Stop();
             SetLabelColor(Colors.Black);
             ThisViewModel.IsTimerRunning = false;
