@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace on_screen_timer
@@ -149,6 +150,8 @@ namespace on_screen_timer
             Timer.Interval = TimeSpan.FromMilliseconds(0);
             Timer.Tick += Timer_Tick;
 
+            SetLabelColor();
+
             Timer.Start();
         }
 
@@ -163,6 +166,8 @@ namespace on_screen_timer
                 ThisViewModel.CurrentLeftMinutes = Time.Minutes;
                 ThisViewModel.CurrentLeftSeconds = Time.Seconds;
 
+                SetLabelColor();
+
                 PastSecond = DateTime.Now.Second;
             }
         }
@@ -171,11 +176,22 @@ namespace on_screen_timer
         {
             MessageBox.Show("타이머 완료");
             Timer.Stop();
+            SetLabelColor(Colors.Black);
             ThisViewModel.IsTimerRunning = false;
             ThisViewModel.IsTimerPaused = false;
             ThisViewModel.ControlVisible = true;
         }
 
+        private void SetLabelColor()
+        {
+            bool endSoon = Time.Minutes == 0 && Time.Seconds <= 10;
+            ThisViewModel.TimerLabelColor = new SolidColorBrush(endSoon ? Colors.OrangeRed : Colors.Black);
+        }
+
+        private void SetLabelColor(Color color)
+        {
+            ThisViewModel.TimerLabelColor = new SolidColorBrush(color);
+        }
 
         private void ExitItem_Click(object sender, RoutedEventArgs e)
         {
