@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
@@ -175,7 +176,7 @@ namespace on_screen_timer
         private void TimerDone()
         {
             System.Media.SystemSounds.Hand.Play();
-            new AlertWindow(1.2, "타이머 완료!").Show();
+            ShowAlertWindows(1.2, "타이머 완료!");
 
             Timer.Stop();
             SetLabelColor(Colors.Black);
@@ -184,13 +185,27 @@ namespace on_screen_timer
             ThisViewModel.ControlVisible = true;
         }
 
+        private void ShowAlertWindows(double duration, string message)
+        {
+            foreach (var screen in System.Windows.Forms.Screen.AllScreens)
+            {
+                var window = new AlertWindow(duration, message);
+                Rectangle screenRectangle = screen.WorkingArea;
+
+                window.Top = screenRectangle.Top + (screenRectangle.Height - window.Height) / 2;
+                window.Left = screenRectangle.Left + (screenRectangle.Width - window.Width) / 2;
+
+                window.Show();
+            }
+        }
+
         private void SetLabelColor()
         {
             bool endSoon = Time.Minutes == 0 && Time.Seconds <= 10;
             ThisViewModel.TimerLabelColor = new SolidColorBrush(endSoon ? Colors.OrangeRed : Colors.Black);
         }
 
-        private void SetLabelColor(Color color)
+        private void SetLabelColor(System.Windows.Media.Color color)
         {
             ThisViewModel.TimerLabelColor = new SolidColorBrush(color);
         }
