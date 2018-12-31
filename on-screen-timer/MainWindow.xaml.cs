@@ -146,9 +146,11 @@ namespace on_screen_timer
         private void StartTimer()
         {
             Time = new TimeSpan(0, ThisViewModel.MinuteSet, ThisViewModel.SecondSet + 1);
-            Timer = new DispatcherTimer();
+            Timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(0)
+            };
 
-            Timer.Interval = TimeSpan.FromMilliseconds(0);
             Timer.Tick += Timer_Tick;
 
             SetLabelColor();
@@ -164,7 +166,7 @@ namespace on_screen_timer
             {
                 Time = Time.Add(TimeSpan.FromSeconds(-1));
 
-                ThisViewModel.CurrentLeftMinutes = Time.Minutes;
+                ThisViewModel.CurrentLeftMinutes = (int)Time.TotalMinutes;
                 ThisViewModel.CurrentLeftSeconds = Time.Seconds;
 
                 SetLabelColor();

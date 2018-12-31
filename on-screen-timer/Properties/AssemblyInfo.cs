@@ -8,7 +8,7 @@ using System.Windows;
 // 제어됩니다. 어셈블리와 관련된 정보를 수정하려면
 // 이러한 특성 값을 변경하세요.
 [assembly: AssemblyTitle("Timer")]
-[assembly: AssemblyDescription("화면 위 항상 맨 앞에 유지되는 카운트다운 타이머입니다.")]
+[assembly: AssemblyDescription("화면 최상단에 유지되는 카운트다운 타이머입니다.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Potados")]
 [assembly: AssemblyProduct("Onscreen Timer")]
@@ -51,5 +51,5 @@ using System.Windows;
 // 모든 값을 지정하거나 아래와 같이 '*'를 사용하여 빌드 번호 및 수정 번호가 자동으로
 // 지정되도록 할 수 있습니다.
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.3.*")]
-[assembly: AssemblyFileVersion("1.3.0.0")]
+[assembly: AssemblyVersion("1.4.*")]
+[assembly: AssemblyFileVersion("1.4.0.0")]

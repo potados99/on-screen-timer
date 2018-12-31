@@ -41,6 +41,8 @@ namespace on_screen_timer
             }
         }
 
+        private const int MINUTE_MAX = 99;
+        private const int SECOND_MAX = 59;
 
         private int minuteSet = 0;
         public int MinuteSet
@@ -52,18 +54,20 @@ namespace on_screen_timer
 
             set
             {
-                if (value > 59)
+                if (value > MINUTE_MAX)
                 {
-                    MessageBox.Show("60 미만의 정수를 입력해 주세요");
-                    return;
-                }
-                if (value < 0)
-                {
-                    MessageBox.Show("0 이상의 정수를 입력해 주세요");
+                    minuteSet = 0;
+                    NotifyPropertyChanged("MinuteSet");
                     return;
                 }
 
-                if (value == 0 && SecondSet == 0)
+                if (value < 0)
+                {
+                    minuteSet = MINUTE_MAX;
+                    NotifyPropertyChanged("MinuteSet");
+                    return;
+                }
+                else if (value == 0 && SecondSet == 0)
                 {
                     SecondSet = 1;
                 }
@@ -82,9 +86,9 @@ namespace on_screen_timer
 
             set
             {
-                if (value > 59)
+                if (value > SECOND_MAX)
                 {
-                    if (value == 60 && MinuteSet < 59)
+                    if (value == SECOND_MAX + 1 && MinuteSet < MINUTE_MAX)
                     {
                         MinuteSet += 1;
                         secondSet = 0;
@@ -102,7 +106,7 @@ namespace on_screen_timer
                     if (value == -1 && MinuteSet > 0)
                     {
                         MinuteSet -= 1;
-                        secondSet = 59;
+                        secondSet = SECOND_MAX;
                         NotifyPropertyChanged("SecondSet");
                     }
                     else
