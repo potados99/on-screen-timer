@@ -231,8 +231,7 @@ namespace on_screen_timer
         private void DevItem_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show(
-                "만든이 병준이\n" +
-                "조력자 밓디\n"
+                "만든이 병준\n" 
                  );
         }
     }
